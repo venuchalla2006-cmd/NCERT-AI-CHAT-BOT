@@ -1,38 +1,55 @@
-import { type User, type InsertUser } from "@shared/schema";
-import { randomUUID } from "crypto";
-
-// modify the interface with any CRUD methods
-// you might need
+import { db } from "./db";
+import {
+  documents,
+  chatMessages,
+  type Document,
+  type InsertDocument,
+  type ChatMessage,
+  type InsertChatMessage,
+} from "@shared/schema";
+import { eq, and } from "drizzle-orm";
 
 export interface IStorage {
-  getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
+  getDocuments(className: string, subject: string): Promise<Document[]>;
+  createDocument(doc: InsertDocument): Promise<Document>;
+  
+  getChatMessages(className: string, subject: string): Promise<ChatMessage[]>;
+  createChatMessage(msg: InsertChatMessage): Promise<ChatMessage>;
+  clearChatMessages(): Promise<void>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<string, User>;
-
-  constructor() {
-    this.users = new Map();
-  }
-
-  async getUser(id: string): Promise<User | undefined> {
-    return this.users.get(id);
-  }
-
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
+export class DatabaseStorage implements IStorage {
+  async getDocuments(className: string, subject: string): Promise<Document[]> {
+    return await db.select().from(documents).where(
+      and(
+        eq(documents.className, className),
+        eq(documents.subject, subject)
+      )
     );
   }
 
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const id = randomUUID();
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
-    return user;
+  async createDocument(doc: InsertDocument): Promise<Document> {
+    const [document] = await db.insert(documents).values(doc).returning();
+    return document;
+  }
+
+  async getChatMessages(className: string, subject: string): Promise<ChatMessage[]> {
+    return await db.select().from(chatMessages).where(
+      and(
+        eq(chatMessages.className, className),
+        eq(chatMessages.subject, subject)
+      )
+    ).orderBy(chatMessages.createdAt);
+  }
+
+  async createChatMessage(msg: InsertChatMessage): Promise<ChatMessage> {
+    const [message] = await db.insert(chatMessages).values(msg).returning();
+    return message;
+  }
+
+  async clearChatMessages(): Promise<void> {
+    await db.delete(chatMessages);
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
