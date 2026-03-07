@@ -3,7 +3,7 @@ import { Layout } from "@/components/layout";
 import { ChatBubble } from "@/components/chat-bubble";
 import { useChatHistory, useSendMessage, useClearChat } from "@/hooks/use-chat";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, Settings2, Trash2, Loader2 } from "lucide-react";
+import { Send, Settings2, Trash2, Loader2, Sparkles } from "lucide-react";
 
 const CLASSES = ["Class 6", "Class 7", "Class 8", "Class 9", "Class 10", "Class 11", "Class 12"];
 const SUBJECTS = ["Science", "Mathematics", "Social Science", "Physics", "Chemistry", "Biology"];
