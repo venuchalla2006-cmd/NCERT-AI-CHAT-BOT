@@ -1,0 +1,116 @@
+Build a complete AI-powered web application called **NCERT Doubt Solver – Hinglish/Tanglish AI Tutor** designed for students to ask questions from NCERT textbooks.
+
+Project Goal:
+Create a modern web platform where students can select their **class and subject**, ask questions in **Hinglish, Tanglish, or simple English**, and receive **clear explanations strictly based on NCERT textbooks**.
+
+Core Workflow:
+
+1. When the website opens, show a **beautiful landing page** with a button **“Ask Question”**.
+2. After clicking it, the student must:
+
+   * Select **Class (1–12)** from a dropdown.
+   * Select **Subject** (Science, Maths, Social Science, English, etc.).
+3. Then a **chat-style interface** appears where the student can type their question.
+4. The AI should analyze the question and respond with:
+
+   * A **simple explanation**
+   * Based strictly on **NCERT textbook content**
+   * Written in **Hinglish/Tanglish friendly language** so school students can easily understand.
+
+NCERT Knowledge Source:
+The system must automatically check for NCERT textbooks.
+
+If NCERT textbooks are not present:
+
+* Create a folder called **/ncert_books/**
+* Allow uploading **PDF NCERT textbooks** for different classes and subjects.
+
+If possible, automatically download **public NCERT PDFs** and store them inside the folder.
+
+Then:
+
+* Extract text from PDFs
+* Store the text
+* Use it as the **knowledge base for answering questions**
+
+AI Processing:
+Implement a **RAG (Retrieval Augmented Generation) system**:
+
+1. Extract text from uploaded PDFs.
+2. Convert the text into **embeddings**.
+3. Store them in a **vector database**.
+4. When a student asks a question:
+
+   * Retrieve relevant NCERT content.
+   * Send that context to the AI model.
+   * Generate a **clear student-friendly explanation**.
+
+Response Format:
+The answer should include:
+
+* Simple explanation
+* Important concept
+* Example if needed
+* Avoid complex language
+
+Technology Requirements:
+
+Frontend:
+
+* HTML
+* CSS
+* JavaScript
+* Modern UI with animations
+* Chat interface like ChatGPT
+* Dropdown for class and subject
+* Mobile responsive design
+* Dark mode and light mode
+
+Backend:
+
+* Python FastAPI
+* API endpoint for asking questions
+* API endpoint for uploading NCERT PDFs
+* PDF text extraction
+
+AI + Data Layer:
+
+* Use embeddings for document retrieval
+* Use a vector database (FAISS or similar)
+* Use an LLM for generating explanations
+
+Folder Structure:
+project/
+frontend/
+backend/
+ncert_books/
+vector_store/
+uploads/
+
+Features to Include:
+
+* Upload NCERT PDFs
+* Auto-read PDFs
+* Chat interface
+* Class and subject filter
+* Hinglish/Tanglish explanations
+* Fast responses
+* Clean UI
+* Student-friendly design
+
+UI Expectations:
+Make the interface **extremely modern and visually impressive for a hackathon demo**, including:
+
+* gradient background
+* animated buttons
+* smooth transitions
+* card-based layouts
+* chat bubbles for AI responses
+
+Also include instructions in README on:
+
+* how to run the backend
+* how to upload NCERT PDFs
+* how to start the web app
+
+The final result should be a **fully functional AI-powered NCERT doubt clearing chatbot suitable for a hackathon demo.**
