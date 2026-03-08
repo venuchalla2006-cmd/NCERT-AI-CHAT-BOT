@@ -94,14 +94,15 @@ app.use((req, res, next) => {
   // It is the only port that is not firewalled.
   const port = parseInt(process.env.PORT || "5000", 10);
  
-const __dirname = path.resolve();
+  const __dirname = path.resolve();
 
-app.use(express.static(path.join(__dirname, "../client/dist")));
+  app.use(express.static(path.join(__dirname, "../client/dist")));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/dist/index.html"));
-});
- httpServer.listen(5000, "localhost", () => {
-  console.log("Server running on http://localhost:5000");
-});
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+  });
+
+  httpServer.listen(port, "0.0.0.0", () => {
+    console.log("Server running on port " + port);
+  });
 })();
