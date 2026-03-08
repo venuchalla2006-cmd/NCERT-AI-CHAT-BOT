@@ -103,26 +103,41 @@ function ChatInterface({ className, subject, onReset }: { className: string; sub
   const sendMessage = useSendMessage();
   const clearChat = useClearChat();
   
-  const [input, setInput] = useState("");
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+const [input, setInput] = useState("");
+const startVoice = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const SpeechRecognition =
+    (window as any).SpeechRecognition ||
+    (window as any).webkitSpeechRecognition;
 
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, sendMessage.isPending]);
+  const recognition = new SpeechRecognition();
 
-  const handleSend = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim() || sendMessage.isPending) return;
+  recognition.lang = "en-IN";
+  recognition.start();
 
-    sendMessage.mutate({
-      className,
-      subject,
-      role: "user",
-      content: input.trim()
-    }, {
-      onSuccess: () => setInput("")
-    });
+  recognition.onresult = (event: any) => {
+    const transcript = event.results[0][0].transcript;
+    setInput(transcript);
   };
+};
+const messagesEndRef = useRef<HTMLDivElement>(null);
+
+useEffect(() => {
+  messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+}, [messages, sendMessage.isPending]);
+
+const handleSend = (e: React.FormEvent) => {
+  e.preventDefault();
+  if (!input.trim() || sendMessage.isPending) return;
+
+  sendMessage.mutate({
+    className,
+    subject,
+    role: "user",
+    content: input.trim()
+  }, {
+    onSuccess: () => setInput("")
+  });
+};
 
   return (
     <motion.div 
@@ -197,6 +212,13 @@ function ChatInterface({ className, subject, onReset }: { className: string; sub
             className="w-full glass-input rounded-2xl pl-6 pr-14 py-4 text-white placeholder:text-white/40 focus:outline-none"
             disabled={sendMessage.isPending}
           />
+          <button
+ type="button"
+ onClick={startVoice}
+ className="absolute right-14 p-2 rounded-xl text-white bg-gray-700 hover:bg-gray-600"
+>
+ 🎤
+</button>
           <button
             type="submit"
             disabled={!input.trim() || sendMessage.isPending}
