@@ -5,7 +5,7 @@ import { api } from "@shared/routes";
 import { z } from "zod";
 import multer from "multer";
 // @ts-ignore
-import * as pdfParse from "pdf-parse";
+import pdfParse from "pdf-parse";
 
 const upload = multer({ storage: multer.memoryStorage() });
 
