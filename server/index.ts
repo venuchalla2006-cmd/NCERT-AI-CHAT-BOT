@@ -102,7 +102,6 @@ app.use((req, res, next) => {
     res.sendFile(path.join(__dirname, "../client/dist/index.html"));
   });
 
-  httpServer.listen(port, "0.0.0.0", () => {
-    console.log("Server running on port " + port);
-  });
+  httpServer.listen(5000, "localhost");
+  log(`Server is running on http://localhost:${port}`);
 })();
